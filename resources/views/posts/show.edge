@@ -1,0 +1,112 @@
+@layout('layouts/main')
+@set('title', 'Show')
+
+@section('content')
+
+<div class="container">
+
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('posts.index') }}">Post</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Show</li>
+        </ol>
+    </nav>
+
+    <div class="row my-4 p-4 border rounded">
+        <div class="col-12 col-md-6">
+            {{-- image --}}
+            <img src="data:image/img:png;base64, {{ post.$extras.base64String }}" alt="postimage"
+                class="card-img-bottom card-img-top img-fluid">
+        </div>
+
+        <div class="col-12 col-md-6">
+            {{-- post details --}}
+            <h4>
+                Title
+                <small class="text-capitalize text-muted">{{ post.title }}</small>
+            </h4>
+
+            <h4 class="mt-4">
+                Description
+                <small class="text-capitalize text-muted">{{ post.description }}</small>
+            </h4>
+
+            <h4 class="mt-4">Tags</h4>
+            <div class="border rounded p-4">
+                @each(tag in post.tags)
+                <span class="badge rounded-pill bg-secondary text-capitalize m-1 p-2">{{ tag.title }}</span>
+                @endeach
+            </div>
+
+            <div class="mt-4 d-flex">
+                <div>
+                    <a href="{{ route('posts.edit', { id: post.id }) }}" class="btn btn-warning text-white">
+                        Edit
+                        <i class="fa-solid fa-pen-to-square ms-1"></i>
+                    </a>
+                </div>
+
+                <div class="ms-2">
+                    <form action="{{ route('posts.destroy', { id: post.id }, { qs: { _method:'DELETE'}}) }}" method="post"
+                        onsubmit="return confirm('Confirm to permanently delete of this item?');">
+                        {{ csrfField() }}
+                        <button type="submit" class="btn btn-danger text-white">
+                            Delete
+                            <i class="fa-solid fa-trash-can ms-1"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="ms-2">
+                    <a href="{{route('posts.download', { id: post.id }) }}" class="btn btn-success text-white">
+                        Download
+                        <i class="fa-solid fa-circle-down ms-1"></i>
+                    </a>
+                </div>
+            </div>
+
+            <h4 class="mt-4">
+                Created by
+                <a class="text-capitalize text-danger" href="{{route ('profile.show', {id: post.user.profile.id}) }}">
+                    {{ post.user.profile.full_name }}
+                </a>
+            </h4>
+
+        </div>
+    </div>
+
+    <h4 class="mt-4 text-primary">
+        <i class="fa-solid fa-circle-nodes"></i>
+        More Related
+    </h4>
+
+    <hr>
+
+    <div class="row">
+        @each(post in posts)
+        <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+            <a href="{{route ('posts.show', {id: post.id}) }}">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <div>
+                        {{-- image --}}
+                        <img src="data:image/png;base64, {{ post.$extras.base64String }}" alt="postimage"
+                            class="card-img-top card-img-bottom">
+                    </div>
+
+                    <div>
+                        {{-- title --}}
+                        <p class="fs-6 text-capitalize"> {{post.title}} </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        @else
+        <div class="col-12">
+            <p class="fs-4 text-center">Ralated post not found, Let's Create!! </p>
+        </div>
+        @endeach
+    </div>
+
+</div>
+
+@endsection
