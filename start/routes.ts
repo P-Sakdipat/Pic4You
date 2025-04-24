@@ -1,8 +1,6 @@
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async ({ view }) => {
-  return view.render('welcome')
-}).as('home')
+Route.get('/', 'HomeController.index' ).as('home')
 
 Route.get('/logout','AuthController.logout').as('logout')
 

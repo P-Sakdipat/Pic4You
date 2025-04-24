@@ -13,9 +13,9 @@
 
   <div class="text-center">
 
-    @if(profile.social_auth)
+    @if(profile.storage_prefix)
     <img src="data:image/png;base64, {{imgBase64}}" alt="profile" class="img-thumbnail" style="height: 300px;">
-    @elseif( profile.socialAuth === 'google' || profile.socialAuth === 'github' || profile.socialAuth === 'facebook')
+    @elseif( profile.social_auth === 'google' || profile.social_auth === 'github' || profile.social_auth === 'facebook')
     <img src="{{ profile.avatar_url }}" alt="profile" class="img-thumbnail">
     @else
     <p class="fs-5 text-capitalize text-center text-danger">Image Not Avaliable</p>

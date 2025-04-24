@@ -1,11 +1,12 @@
-<nav class="navbar navbar-expand-lg bg-light shadow-sm p-3 mb-4 navbar-light" >
-    <div class="container-fluid">
-      <a class="navbar-brand fw-bold text-primary" href="#">Pic4You</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+<nav class="navbar navbar-expand-lg bg-light shadow-sm p-3 mb-4 navbar-light">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold text-primary" href="{{route ('home') }}">Pic4You</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
         @if(auth.isLoggedIn)
         <li class="nav-item">
@@ -31,12 +32,23 @@
         </li>
         @endif
 
-        </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-        <button class="btn btn-outline-info ms-1" type="submit">Reset</button>
-      </div>
+      </ul>
+      <form action="{{ route ('home') }}" method="GET" class="d-flex" role="search">
+        <input class="form-control me-2" type="search" name="search" placeholder="Search" id="search_input"
+          aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+      <script>
+        $(document).ready(() => {
+          const parms = new URLSearchParams(window.location.search)
+          const value = parms.get('search')
+          if (value) {
+            $('#search_input').val(value)
+          }
+        })
+      </script>
+
+      <a class="btn btn-outline-info ms-1" href="{{route ('home') }}">Reset</a>
     </div>
-  </nav>
+  </div>
+</nav>
